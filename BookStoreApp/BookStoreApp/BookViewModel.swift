@@ -8,12 +8,12 @@
 import Foundation
 
 protocol BookViewModelDelegate: AnyObject {
+    func didTapWishlist(for book: Book)
 }
 
 class BookViewModel {
     private let bookStore = BookStore()
     var selectedTags = [BookTag]()
-    private(set) var wishlistBooks = [Book]()
     var selectedSort: SortOption?
     private(set) var chips: [String] = ["All"] + BookTag.allCases.map { $0.rawValue }
     var searchQuery: String = ""
@@ -28,5 +28,13 @@ class BookViewModel {
         
         guard let sort = selectedSort else { return searched }
         return sort.apply(to: searched)
+    }
+    
+    var wishlistBooks: [Book] {
+        
+        let filtered = bookStore.books.filter { WishlistManager.shared.isInWishlist(bookID: $0.id) && Set(selectedTags).isSubset(of: Set($0.tags)) }
+        
+        guard let sort = selectedSort else { return filtered }
+        return sort.apply(to: filtered)
     }
 }
