@@ -19,7 +19,7 @@ final class WishlistViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 16
-//        layout.estimatedItemSize = CGSize(width: view.frame.width - 32, height: 200)
+        layout.estimatedItemSize = CGSize(width: view.frame.width - 32, height: 200)
 
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .clear
